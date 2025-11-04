@@ -21,6 +21,14 @@ stages:
           - script: dotnet build --configuration $(buildConfiguration)
             displayName: Actual Build
 
+          - task: DotNetCoreCLI@2
+            displayName: Publish Project
+            inputs:
+              command: "publish"
+              projects: "$(projectPath)"
+              arguments: "--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/output"
+              zipAfterPublish: true
+
           - task: PublishBuildArtifacts@1
             displayName: Publish Build Artifacts
             inputs:
